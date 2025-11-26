@@ -17,6 +17,6 @@ export interface Ticket {
   description: string;
   status: TicketStatus;
   assignee: string;
-  createdAt: Date;
+  createdAt: string;
   priority: TicketPriority;
 }

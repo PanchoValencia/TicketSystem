@@ -78,7 +78,7 @@ export const ManageTicketForm: React.FC = () => {
                 description,
                 status,
                 assignee,
-                createdAt: new Date(),
+                createdAt: new Date().toISOString(),
                 priority,
             }))
         }
