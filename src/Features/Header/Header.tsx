@@ -4,11 +4,12 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { ROUTES } from '../../Platform/Routes';
 import { Button } from '../../Components/Button/Button';
 import { SearchBox } from '../../Components/SearchBox/SearchBox';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSearchQuery } from '../../Store/TicketSystemSlice';
+import { RootState } from '../../Store/Store';
+
 
 const HeaderContainer = styled.div`
-    // position: fixed;
-    // width: 100%;
-    // top: 0;
     z-index: 1000;
     display: flex;
     justify-content: space-between;
@@ -32,15 +33,19 @@ const ActionsContainer = styled.div`
 export const Header: React.FC = () => {
     const { pathname } = useLocation();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const searchQuery = useSelector((state: RootState) => state.ticketSystem.searchQuery);
     const isHomePage = pathname === ROUTES.home;
+    const isCreatePage = pathname === ROUTES.create;
+    const isValidPage = Object.values(ROUTES).includes(pathname);
 
     return (
         <HeaderContainer>
             <h1>Ticket System</h1>
             <ActionsContainer>
                 {!isHomePage ? <Button onClick={() => navigate(ROUTES.home)} variant='link'>Home</Button> : null}
-                {isHomePage ? <Button onClick={() => {}}>Create Ticket</Button> : null}
-                {isHomePage ? <SearchBox onChange={() => {}} value={''} /> : null}
+                {!isCreatePage && isValidPage ? <Button onClick={() => navigate(ROUTES.create)}>Create Ticket</Button> : null}
+                {isHomePage ? <SearchBox onChange={(val) => dispatch(setSearchQuery(val))} value={searchQuery} /> : null}
             </ActionsContainer>
         </HeaderContainer>
     );

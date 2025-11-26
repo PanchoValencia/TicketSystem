@@ -12,7 +12,6 @@ const PaginatorContainer = styled.div`
 
 const CurrentPageText = styled.div`
     font-size: 1rem;
-    line-height: 0;
     color: var(--secondary);
 `;
 
@@ -20,14 +19,13 @@ interface PaginatorProps {
     readonly limit: number;
     readonly total: number;
     readonly onChange: (page: number) => void;
+    readonly currentPage: number;
 }
 
-export const Paginator: React.FC<PaginatorProps> = ({ total, onChange, limit }) => {
+export const Paginator: React.FC<PaginatorProps> = ({ total, onChange, limit, currentPage }) => {
     const pages = Math.ceil(total / limit);
-    const [currentPage, setCurrentPage] = React.useState(1);
 
     const handleChange = (page: number) => {
-        setCurrentPage(page);
         onChange(page);
     }
 
