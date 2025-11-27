@@ -1,15 +1,6 @@
-export enum TicketPriority {
-  Low = 'Low',
-  Medium = 'Medium',
-  High = 'High',
-}
+export type TicketPriority = 'Low' | 'Medium' | 'High';
 
-export enum TicketStatus {
-  ToDo = 'ToDo',
-  InProgress = 'InProgress',
-  InReview = 'InReview',
-  Closed = 'Closed',
-}
+export type TicketStatus = 'ToDo' | 'InProgress' | 'InReview' | 'Closed';
 
 export interface Ticket {
   id: string;
@@ -17,6 +8,6 @@ export interface Ticket {
   description: string;
   status: TicketStatus;
   assignee: string;
-  createdAt: string;
   priority: TicketPriority;
+  createdAt: Date;
 }

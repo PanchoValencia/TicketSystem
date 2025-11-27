@@ -16,6 +16,10 @@ const TableHeader = styled.div`
     color: var(--bg);
     font-size: 1.5rem;
     font-weight: 600;
+
+    div:last-child {
+        width: 60px;
+    }
 `;
 
 const TableBody = styled.div`

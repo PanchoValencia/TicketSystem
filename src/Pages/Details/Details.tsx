@@ -52,7 +52,7 @@ const EditIconContainer = styled.div`
 export const Details: React.FC = () => {
   const { id } = useParams();
   const navigateToEdit = useNavigateToEdit();
-  const { tickets } = useSelector((state: RootState) => state.ticketSystem);
+  const { tickets } = useSelector((state: RootState) => state);
   const ticket = tickets.find((ticket: Ticket) => ticket.id === id);
 
   return (

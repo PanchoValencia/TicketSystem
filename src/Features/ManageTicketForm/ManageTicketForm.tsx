@@ -31,31 +31,31 @@ const ManageTicketFormFooter = styled.div`
 `;
 
 const mapToStatus: Record<TicketStatus, string> = {
-    [TicketStatus.ToDo]: 'To Do',
-    [TicketStatus.InProgress]: 'In Progress',
-    [TicketStatus.InReview]: 'In Review',
-    [TicketStatus.Closed]: 'Closed',
+    'ToDo': 'To Do',
+    'InProgress' : 'In Progress',
+    'InReview': 'In Review',
+    'Closed': 'Closed',
 }
 
 const mapToPriority: Record<TicketPriority, string> = {
-    [TicketPriority.Low]: 'Low',
-    [TicketPriority.Medium]: 'Medium',
-    [TicketPriority.High]: 'High',
+    'Low': 'Low',
+    'Medium': 'Medium',
+    'High': 'High',
 }
 
 export const ManageTicketForm: React.FC = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const {tickets} = useSelector((state: RootState) => state.ticketSystem)
+    const {tickets} = useSelector((state: RootState) => state);
     const isEdit = Boolean(id);
     const currentTicket = tickets.find((ticket: Ticket) => ticket.id === id)
 
     const [title, setTitle] = React.useState<string>(currentTicket?.title ?? '')
     const [description, setDescription] = React.useState<string>(currentTicket?.description ?? '')
     const [assignee, setAssignee] = React.useState<string>(currentTicket?.assignee ?? '')
-    const [status, setStatus] = React.useState<TicketStatus>(currentTicket?.status ?? TicketStatus.ToDo)
-    const [priority, setPriority] = React.useState<TicketPriority>(currentTicket?.priority ?? TicketPriority.Low)
+    const [status, setStatus] = React.useState<TicketStatus>(currentTicket?.status ?? 'ToDo')
+    const [priority, setPriority] = React.useState<TicketPriority>(currentTicket?.priority ?? 'Low')
 
     const isDisabled = React.useMemo(() => {
         return !title || !description || !assignee;
@@ -78,8 +78,8 @@ export const ManageTicketForm: React.FC = () => {
                 description,
                 status,
                 assignee,
-                createdAt: new Date().toISOString(),
                 priority,
+                createdAt: new Date(),
             }))
         }
 
@@ -94,8 +94,8 @@ export const ManageTicketForm: React.FC = () => {
                     <TextField label="Title" value={title} onChange={setTitle} placeholder="Add title" />
                     <TextField label="Description" value={description} onChange={setDescription} placeholder="Add description" />
                     <TextField label="Assignee" value={assignee} onChange={setAssignee} placeholder="Add assignee" />
-                    <Select label="Status" value={status} onChange={setStatus} options={Object.values(TicketStatus).map((status) => ({ label: mapToStatus[status], value: status }))} />
-                    <Select label="Priority" value={priority} onChange={setPriority} options={Object.values(TicketPriority).map((priority) => ({ label: mapToPriority[priority], value: priority }))} />
+                    <Select label="Status" value={status} onChange={setStatus} options={Object.keys(mapToStatus).map((status) => ({ label: mapToStatus[status as TicketStatus], value: status }))} />
+                    <Select label="Priority" value={priority} onChange={setPriority} options={Object.keys(mapToPriority).map((priority) => ({ label: priority, value: priority }))} />
                 </Stack>
                 <ManageTicketFormFooter>
                     <Button onClick={handleSave} isDisabled={isDisabled}>{isEdit ? 'Update' : 'Create'}</Button>

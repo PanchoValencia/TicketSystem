@@ -34,7 +34,7 @@ export const Header: React.FC = () => {
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const searchQuery = useSelector((state: RootState) => state.ticketSystem.searchQuery);
+    const searchQuery = useSelector((state: RootState) => state.searchQuery);
     const isHomePage = pathname === ROUTES.home;
     const isCreatePage = pathname === ROUTES.create;
     const isValidPage = Object.values(ROUTES).includes(pathname);

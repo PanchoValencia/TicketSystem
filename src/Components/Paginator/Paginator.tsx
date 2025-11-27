@@ -2,11 +2,18 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Button } from '../Button/Button';
 
-
-const PaginatorContainer = styled.div`
+const CommonTextContainer = styled.div`
     display: flex;
-    justify-content: flex-end;
     align-items: center;
+    gap: 1rem;
+`;
+
+const PaginatorContainer = styled(CommonTextContainer)`
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    align-self: flex-end;
     gap: 1rem;
 `;
 
@@ -29,9 +36,14 @@ export const Paginator: React.FC<PaginatorProps> = ({ total, onChange, limit, cu
         onChange(page);
     }
 
+    const startShowingItem = (currentPage * limit - limit + 1);
+    const endShowingItem = Math.min(currentPage * limit, total);
+
     return (
         <PaginatorContainer>
-            {currentPage > 1 ? (
+            <CommonTextContainer>{startShowingItem + ' to ' + endShowingItem + ' of ' + total }</CommonTextContainer>
+            <CommonTextContainer>
+               {currentPage > 1 ? (
                 <Button onClick={() => handleChange(currentPage - 1)} variant='link'>
                     Previous
                 </Button>
@@ -46,6 +58,7 @@ export const Paginator: React.FC<PaginatorProps> = ({ total, onChange, limit, cu
                     Next
                 </Button>
             ) : null}
+            </CommonTextContainer>
         </PaginatorContainer>
     )
 }

@@ -12,6 +12,7 @@ const limit = 10;
 const TicketsListContainer = styled.div`
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 1rem;
     padding: 1.5rem;
 `;
@@ -19,7 +20,7 @@ const TicketsListContainer = styled.div`
 export const TicketsList: React.FC = () => {
     const [page, setPage] = React.useState(1);
     const navigateToDetails = useNavigateToDetails();
-    const {searchQuery, tickets} = useSelector((state: RootState) => state.ticketSystem);
+    const {searchQuery, tickets} = useSelector((state: RootState) => state);
 
     const filteredTickets = React.useMemo(() => {
         if (!searchQuery) {
@@ -41,10 +42,18 @@ export const TicketsList: React.FC = () => {
         }
     }, [searchQuery]);
 
+    if (!filteredTickets.length) {
+        return (
+            <TicketsListContainer>
+                <p>No tickets found</p>
+            </TicketsListContainer>
+        );
+    }
+
     return (
         <TicketsListContainer>
             <Table
-                columns={['Title', 'Status']}
+                columns={['Title', 'Status', '']}
                 data={getPaginatedTickets.map((ticket, idx) => (
                     <TicketRow
                         key={ticket.id}
@@ -54,11 +63,6 @@ export const TicketsList: React.FC = () => {
                     />
                 ))}
             />
-            {
-                filteredTickets.length === 0 ? (
-                    <p>No tickets found</p>
-                ) : null
-            }
             {
                 filteredTickets.length > limit ? (
                     <Paginator limit={limit} total={filteredTickets.length} onChange={setPage} currentPage={page} />
